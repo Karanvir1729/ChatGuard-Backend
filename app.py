@@ -10,6 +10,7 @@ from flask import Flask, jsonify
 
 
 DATA_FILE = Path(__file__).with_name("AI_policy_summaries_unique_by_course.json")
+CONTACT_EMAIL = "karanvir.khanna@mail.utoronto.ca"
 
 
 def normalize_course_code(value: str) -> str:
@@ -91,6 +92,72 @@ def create_app() -> Flask:
     @app.get("/health")
     def health() -> Any:
         return jsonify({"ok": True})
+
+    @app.get("/privacy")
+    def privacy() -> Any:
+        policy_html = f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGuard Privacy Policy</title>
+  <style>
+    body {{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #111827;
+    }}
+    h1, h2 {{
+      line-height: 1.25;
+    }}
+    code {{
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }}
+  </style>
+</head>
+<body>
+  <h1>ChatGuard Privacy Policy</h1>
+  <p>Effective date: March 26, 2026</p>
+
+  <p>ChatGuard provides course AI policy lookups by course code.</p>
+
+  <h2>Data We Receive</h2>
+  <ul>
+    <li>Course codes sent to the API</li>
+    <li>Standard technical request data such as IP address, user agent, and request logs handled by our hosting provider</li>
+  </ul>
+
+  <h2>How We Use Data</h2>
+  <ul>
+    <li>To return course policy information</li>
+    <li>To operate, secure, and debug the service</li>
+  </ul>
+
+  <h2>Data Storage</h2>
+  <ul>
+    <li>We do not require user accounts</li>
+    <li>We do not intentionally collect personal profile information through the API</li>
+    <li>Server or platform logs may be temporarily retained by our hosting provider</li>
+  </ul>
+
+  <h2>Third Parties</h2>
+  <ul>
+    <li>This service is hosted on Vercel</li>
+    <li>Users may access the service through OpenAI GPT Actions</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>For questions about this policy, contact <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>.</p>
+
+  <p>If this policy changes, the updated version will be posted at this URL.</p>
+</body>
+</html>"""
+        return app.response_class(policy_html, mimetype="text/html")
 
     @app.get("/course/<course_code>")
     def get_course_policy(course_code: str) -> Any:
