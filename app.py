@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 from flask import Flask, jsonify
 
@@ -13,7 +14,8 @@ DATA_FILE = Path(__file__).with_name("AI_policy_summaries_unique_by_course.json"
 
 def normalize_course_code(value: str) -> str:
     """Normalize course codes for stable lookups."""
-    return "".join(value.strip().upper().split())
+    decoded = unquote(value)
+    return "".join(decoded.strip().upper().split())
 
 
 def base_course_code(value: str) -> str:
