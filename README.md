@@ -113,17 +113,6 @@ Lightweight course lookup:
 curl http://localhost:5000/course/CSC148H5
 ```
 
-Lookup without spaces and with lowercase:
-
-```bash
-curl http://localhost:5000/course/csc%20148h5
-```
-
-Lookup without the `H5` suffix:
-
-```bash
-curl http://localhost:5000/course/CSC148
-```
 
 Full course record:
 
@@ -131,10 +120,10 @@ Full course record:
 curl http://localhost:5000/course/CSC148H5/full
 ```
 
-Missing course:
+Privacy Policy
 
 ```bash
-curl http://localhost:5000/course/DOESNOTEXIST
+curl http://localhost:5000/privacy
 ```
 
 ## Startup Errors
